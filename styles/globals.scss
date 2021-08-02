@@ -1,0 +1,197 @@
+:root {
+  --text-primary: #f8fafc;
+  --text-secondary: #e2e8f0;
+  --text-tertiary: #cbd5e1;
+  --text-caption: #94a3b8;
+
+  --secondary: #64748b;
+  --tertiary: #334155;
+  --tertiary50: #33415585;
+  --background: #1e293b;
+
+  --pink-text: #f9a8d4;
+  --pink-border: #ec4899;
+  --pink-background: #ec489994;
+
+  --blue-text: #38bdf8;
+  --blue-border: #075985;
+  --blue-background: #07598594;
+
+  --grey-text: #a1a1aa;
+  --grey-border: #52525b;
+  --grey-background: #52525b94;
+
+  --orange-text: #fbbf24;
+  --orange-border: #b45309;
+  --orange-background: #b4530994;
+}
+
+body.light {
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-tertiary: #64748b;
+  --text-caption: #94a3b8;
+
+  --secondary: #cbd5e1;
+  --tertiary: #e2e8f0;
+
+  --background: #fafafa;
+
+  --pink-text: #ec4899;
+  --pink-border: #f9a8d4;
+  --pink-background: #fbcfe8;
+
+  --blue-text: #3b82f6;
+  --blue-border: #93c5fd;
+  --blue-background: #bfdbfe;
+
+  --grey-text: #64748b;
+  --grey-border: #94a3b8;
+  --grey-background: #e2e8f0;
+
+  --orange-text: #f59e0b;
+  --orange-border: #fbbf24;
+  --orange-background: #fde68a;
+}
+
+html,
+body {
+  background-color: var(--background);
+  color: var(--text-tertiary);
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: unset;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+h1,
+h2 {
+  color: var(--text-primary);
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+//----------------------------------#01F2DF
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.flex {
+  display: flex;
+
+  &.column {
+    flex-direction: column;
+  }
+
+  &.center {
+    justify-content: center;
+    align-items: center;
+  }
+
+  &.wrap {
+    flex-wrap: wrap;
+  }
+
+  &.spaceBetween {
+    justify-content: space-between;
+  }
+}
+
+p.caption {
+  color: var(--text-caption);
+}
+
+//----------------------------------#01F2DF
+
+.ant-modal-content {
+  background-color: var(--background);
+
+  .ant-modal-header {
+    background-color: var(--background);
+    border-bottom-color: var(--tertiary);
+  }
+
+  .ant-modal-footer {
+    background-color: var(--background);
+    border-top-color: var(--tertiary);
+  }
+}
+
+.ant-tooltip-inner,
+.ant-popover-inner,
+.ant-message-notice-content,
+.ant-select-dropdown {
+  background-color: var(--tertiary);
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector,
+.ant-input,
+.ant-checkbox-inner {
+  border-color: var(--secondary);
+}
+
+.ant-modal .ant-picker-clear,
+.ant-modal .ant-slider-handle,
+.ant-modal .ant-anchor-wrapper,
+.ant-modal .ant-collapse-content,
+.ant-modal .ant-timeline-item-head,
+.ant-modal .ant-card {
+  background-color: var(--background);
+}
+
+.ant-timeline-item-tail {
+  border-left-color: var(--tertiary);
+}
+
+.ant-timeline .ant-timeline-item:last-child .ant-timeline-item-tail {
+  display: none;
+}
+
+.ant-badge-status-processing {
+  position: absolute;
+  overflow: visible;
+}
+
+.ant-btn {
+  border-color: var(--tertiary);
+}
+
+.ant-tabs-top > .ant-tabs-nav::before {
+  border-color: var(--tertiary);
+}
+
+.ant-tabs-tab {
+  &.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: var(--orange-text);
+  }
+  &:hover {
+    color: var(--text-primary);
+  }
+}
+
+.ant-tabs-ink-bar {
+  background-color: var(--orange-text);
+}
