@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Image from "next/image";
+import Box from "ui-box";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -16,7 +16,9 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
-        Made with {"<3"} by{" "}
+        <Box is="span" marginRight=".24rem">
+          Made with {"<3"} by{" "}
+        </Box>
         <a href="https://github.com/jynnie/typesmart">jynnie</a>
       </footer>
     </div>
