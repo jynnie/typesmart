@@ -24,13 +24,30 @@ function SelectedMeta() {
     setClickDef(null);
   }
 
+  function swapTypes() {
+    const oldAtk = clickAtk;
+    const oldDef = clickDef;
+    setClickAtk(oldDef);
+    setClickDef(oldAtk);
+  }
+
   const modifier =
     (clickAtk && clickDef && TYPECHART?.[clickAtk]?.[clickDef]) ?? 1;
   const displayModifier = modifier === 0.5 ? "½" : modifier;
 
   return (
     <div className={stl.container}>
-      <div>
+      <div className={stl.rightBox}>
+        {(!!clickAtk || !!clickDef) && (
+          <span
+            className={stl.button}
+            role="button"
+            aria-label="Swap type(s)"
+            onClick={swapTypes}
+          >
+            🔄
+          </span>
+        )}
         {!!clickAtk && <span className={stl.type}>⚔️{clickAtk}</span>}
         {!!clickAtk && !!clickDef && (
           <span
@@ -46,7 +63,7 @@ function SelectedMeta() {
         )}
         {!!clickDef && <span className={stl.type}>🛡{clickDef}</span>}
       </div>
-      <div className={stl.clear} onClick={clearClicked} role="button">
+      <div className={stl.button} onClick={clearClicked} role="button">
         Clear
       </div>
     </div>

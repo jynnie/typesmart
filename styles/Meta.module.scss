@@ -12,7 +12,12 @@
   }
 }
 
-.clear {
+.rightBox {
+  display: flex;
+  gap: 4px;
+}
+
+.button {
   padding: 0.1rem 0.4rem;
   transition: background 0.2s;
   border-radius: 4px;
