@@ -26,6 +26,8 @@
   --orange-text: #fbbf24;
   --orange-border: #b45309;
   --orange-background: #b4530994;
+
+  --table-size: min(calc(100vw - 4rem - 8px), calc(100vh - 4rem - 8px));
 }
 
 body.light {
@@ -59,7 +61,7 @@ body.light {
 
 html,
 body {
-  background-color: var(--background);
+  background-color: #fafafa;
   color: var(--text-tertiary);
   padding: 0;
   margin: 0;

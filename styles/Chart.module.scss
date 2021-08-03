@@ -1,5 +1,4 @@
 .table {
-  --table-size: min(calc(100vw - 4rem - 8px), calc(100vh - 4rem - 8px));
   --square-calc: calc((var(--table-size)) / 22);
   --square-size: max(min(var(--square-calc), 42px), 28px);
   --font-size: calc(var(--square-size) * 0.39);

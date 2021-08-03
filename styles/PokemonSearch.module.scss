@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  gap: 1rem;
+
+  margin-top: 8px;
+  width: var(--table-size);
+}
+
+.search {
+  flex-shrink: 0;
+}
+
+.result {
+  &s {
+    display: flex;
+    gap: 4px;
+    overflow: auto;
+  }
+
+  & {
+    text-transform: capitalize;
+    cursor: pointer;
+    transition: background 0.1s;
+    border-radius: 4px;
+
+    &:hover {
+      background: var(--tertiary);
+    }
+  }
+
+  .name {
+    padding: 0 2px;
+  }
+}
+
+.type {
+  &s {
+    position: relative;
+    font-family: "Fira Sans";
+    font-size: 0.8em;
+  }
+
+  & {
+    width: 80px;
+  }
+}
+
+.dualDef {
+  position: relative;
+
+  .typeIcon:first-child {
+    position: absolute;
+    padding-left: 4px;
+    justify-content: flex-start;
+    clip-path: polygon(0 0, 0 100%, 40% 100%, 60% 0);
+    z-index: 1;
+  }
+
+  .typeIcon:nth-child(2) {
+    justify-content: flex-end;
+    padding-right: 4px;
+  }
+}

@@ -5,6 +5,7 @@ import { TYPES } from "models/typechart.model";
 
 import Chart from "components/Chart";
 import SelectedMeta from "components/Meta";
+import PokemonSearch from "components/PokemonSearch";
 
 import styles from "../styles/Home.module.css";
 
@@ -54,6 +55,7 @@ export default function Home() {
         >
           <SelectedMeta />
           <Chart />
+          <PokemonSearch />
         </ChartContext.Provider>
       </main>
 

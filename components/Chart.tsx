@@ -163,6 +163,7 @@ function Chart() {
           ))}
         </tbody>
       </table>
+
       <DualDefenseChart
         {...{
           highlightAtk,

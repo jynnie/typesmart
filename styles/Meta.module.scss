@@ -1,6 +1,4 @@
 .container {
-  --table-size: min(calc(100vw - 4rem), calc(100vh - 4rem));
-
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
