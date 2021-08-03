@@ -3,15 +3,31 @@ import Box from "ui-box";
 import cn from "classnames";
 import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import { ChartContext } from "pages";
 
 import cstl from "styles/Chart.module.scss";
 import stl from "styles/PokemonSearch.module.scss";
 import { ALL_POKEMON } from "models/pokemon.model";
-import { TYPEINFO } from "models/typechart.model";
+import { TYPEINFO, TYPES } from "models/typechart.model";
 
 function Pokemon({ p }: { p: { name: string; types: string[] } }) {
+  const { setClickDef, setClickDef2 } = React.useContext(ChartContext);
+
+  const handleClick = () => {
+    const primary = p.types[0];
+    const secondary = p.types[1];
+    if (primary) setClickDef(primary as any);
+    if (secondary) setClickDef2(secondary as any);
+    else setClickDef2(null);
+  };
+
   return (
-    <div className={stl.result} key={p.name}>
+    <div
+      className={stl.result}
+      key={p.name}
+      aria-label={`${p.name}, Type: ${p.types.join(" ")}`}
+      onClick={handleClick}
+    >
       <div className={stl.name}>{p.name}</div>
       <div
         className={cn(stl.types, {
