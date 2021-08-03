@@ -1,9 +1,25 @@
 .table {
-  --square-calc: calc((100vw - 4rem) / 22);
+  --table-size: min(calc(100vw - 4rem), calc(100vh - 4rem));
+  --square-calc: calc((var(--table-size)) / 22);
   --square-size: max(min(var(--square-calc), 42px), 28px);
-  --font-size: calc(var(--square-size) * 0.45);
+  --font-size: calc(var(--square-size) * 0.39);
 
-  font-family: "Abel";
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  font-family: "Fira Sans";
+
+  th,
+  td {
+    border: 1px solid var(--tertiary);
+  }
+}
+
+.key {
+  font-size: 0.75rem;
+  line-height: 1em;
+  font-weight: normal;
+  text-transform: uppercase;
 }
 
 .typeIcon {
@@ -11,7 +27,7 @@
   font-weight: 400;
   color: #f8fafc;
   text-transform: uppercase;
-  text-shadow: 1px 1px 1px #1e293b, 0 0 4px #1e293b;
+  text-shadow: 1px 1px 2px #1e293b98, 0 0 3px #1e293b4f;
   border: 1px solid #33415520;
 }
 
@@ -19,9 +35,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: var(--square-size);
+  width: (var(--square-size));
   height: var(--square-size);
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .atkBox {
@@ -29,17 +45,18 @@
   justify-content: center;
   align-items: center;
   height: var(--square-size);
-  border-radius: 2px;
+  border-radius: 4px;
+  padding: 0 6px;
 }
 
 .modifierBox {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(var(--square-size) + 1px);
-  width: calc(var(--square-size) + 1px);
+  height: (var(--square-size));
+  width: (var(--square-size));
   font-size: 0.8em;
-  border-radius: 4px;
+  border-radius: 2px;
 
   &.advantage {
     background-color: #67a722;
@@ -47,7 +64,7 @@
   }
 
   &.disadvantage {
-    font-size: 1.2em;
+    font-size: 1em;
     background-color: #b91c1c;
     color: #fde68a;
   }

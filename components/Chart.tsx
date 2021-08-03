@@ -28,7 +28,11 @@ function Chart() {
     <table className={stl.table}>
       <thead>
         <tr>
-          <th>def→</th>
+          <th className={stl.key}>
+            defense →
+            <br />
+            attack ↴
+          </th>
           {defenseOrder.map((defType) => (
             <th key={defType}>
               <Box
