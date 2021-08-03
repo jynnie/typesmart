@@ -1,0 +1,59 @@
+.table {
+  --square-calc: calc((100vw - 4rem) / 22);
+  --square-size: max(min(var(--square-calc), 42px), 28px);
+  --font-size: calc(var(--square-size) * 0.45);
+
+  font-family: "Abel";
+}
+
+.typeIcon {
+  font-size: var(--font-size);
+  font-weight: 400;
+  color: #f8fafc;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 1px #1e293b, 0 0 4px #1e293b;
+  border: 1px solid #33415520;
+}
+
+.defBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--square-size);
+  height: var(--square-size);
+  border-radius: 2px;
+}
+
+.atkBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: var(--square-size);
+  border-radius: 2px;
+}
+
+.modifierBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(var(--square-size) + 1px);
+  width: calc(var(--square-size) + 1px);
+  font-size: 0.8em;
+  border-radius: 4px;
+
+  &.advantage {
+    background-color: #67a722;
+    color: #fef3c7;
+  }
+
+  &.disadvantage {
+    font-size: 1.2em;
+    background-color: #b91c1c;
+    color: #fde68a;
+  }
+
+  &.immune {
+    background-color: #334155;
+    color: #e2e8f0;
+  }
+}
