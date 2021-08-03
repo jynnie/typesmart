@@ -1,0 +1,46 @@
+.container {
+  --table-size: min(calc(100vw - 4rem), calc(100vh - 4rem));
+
+  display: flex;
+  justify-content: space-between;
+  width: var(--table-size);
+
+  margin-bottom: 0.6rem;
+
+  &.empty {
+    color: var(--text-caption);
+  }
+}
+
+.clear {
+  padding: 0.1rem 0.4rem;
+  transition: background 0.2s;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--tertiary);
+  }
+}
+
+.type {
+  text-transform: capitalize;
+}
+
+.advantage {
+  color: #65a30d;
+  &.super {
+    color: #0d9488;
+  }
+}
+
+.disadvantage {
+  color: #b91c1c;
+  &.super {
+    color: #7e22ce;
+  }
+}
+
+.immune {
+  color: #94a3b8;
+}
