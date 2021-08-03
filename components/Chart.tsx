@@ -105,7 +105,7 @@ function Chart() {
     if (def) setHoverDef(def);
   };
 
-  const setClick = (atk: TYPES, def: TYPES) => (evt: MouseEvent) => {
+  const setClick = (atk: TYPES, def: TYPES | null) => (evt: MouseEvent) => {
     helperClick(evt, atk, clickAtk, clickAtk2, setClickAtk, setClickAtk2);
     helperClick(evt, def, clickDef, clickDef2, setClickDef, setClickDef2);
   };
@@ -166,7 +166,6 @@ function Chart() {
       <DualDefenseChart
         {...{
           highlightAtk,
-          highlightDef,
           typeOrder,
           clearHovered,
           setHover,

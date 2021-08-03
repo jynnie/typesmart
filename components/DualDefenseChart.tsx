@@ -5,26 +5,22 @@ import { ChartContext } from "pages";
 import { TYPEORDER, TYPEINFO, TYPECHART, TYPES } from "models/typechart.model";
 
 import Cell from "components/Cell";
-import DefenseType from "components/DefenseType";
 
 import stl from "styles/Chart.module.scss";
-import AttackType from "./AttackType";
 
 //* Main Chart Component
 function DualDefenseChart({
   highlightAtk,
-  highlightDef,
   typeOrder,
   clearHovered,
   setHover,
   setClick,
 }: {
   highlightAtk: TYPES | null;
-  highlightDef: TYPES | null;
   typeOrder: typeof TYPEORDER;
   clearHovered: () => void;
   setHover: (atk: TYPES | null, def: TYPES | null) => void;
-  setClick: (atk: TYPES | null, def: TYPES | null) => (evt: MouseEvent) => void;
+  setClick: (atk: TYPES, def: TYPES | null) => (evt: MouseEvent) => void;
 }) {
   const { clickAtk, clickDef, clickAtk2, clickDef2 } = React.useContext(
     ChartContext,
@@ -89,7 +85,7 @@ function DualDefenseChart({
                   [stl.highlightExact]: matchAtk && matchDef,
                 })}
                 onMouseEnter={setHover(atkType, null)}
-                onClick={setClick(atkType, null)}
+                onClick={setClick(atkType, null) as any}
               />
             </tr>
           );
