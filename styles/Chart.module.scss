@@ -1,5 +1,5 @@
 .table {
-  --table-size: min(calc(100vw - 4rem), calc(100vh - 4rem));
+  --table-size: min(calc(100vw - 4rem - 8px), calc(100vh - 4rem - 8px));
   --square-calc: calc((var(--table-size)) / 22);
   --square-size: max(min(var(--square-calc), 42px), 28px);
   --font-size: calc(var(--square-size) * 0.39);
@@ -14,6 +14,11 @@
     position: relative;
     border: 1px solid var(--tertiary);
     cursor: pointer;
+  }
+
+  &s {
+    display: flex;
+    gap: 8px;
   }
 }
 
@@ -64,11 +69,18 @@
   &.advantage {
     background-color: #67a722;
     color: #fef3c7;
+
+    &.super {
+      background-color: #3b82f6;
+    }
   }
 
   &.disadvantage {
     background-color: #b91c1c;
     color: #fde68a;
+    &.super {
+      background-color: #9333ea;
+    }
   }
 
   &.immune {
@@ -86,4 +98,14 @@
 
 .fade {
   opacity: 0.4;
+}
+
+.dualDef {
+  position: relative;
+
+  .typeIcon:first-child {
+    position: absolute;
+    clip-path: polygon(0 0, 0 100%, 100% 0);
+    z-index: 1;
+  }
 }

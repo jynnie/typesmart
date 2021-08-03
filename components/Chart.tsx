@@ -1,14 +1,14 @@
 import React from "react";
-import Box from "ui-box";
 import cn from "classnames";
 import { ChartContext } from "pages";
-import { TYPEORDER, TYPECHART, TYPEINFO, TYPES } from "models/typechart.model";
+import { TYPEORDER, TYPECHART, TYPES } from "models/typechart.model";
 
 import Cell from "components/Cell";
 import DefenseType from "components/DefenseType";
 
 import stl from "styles/Chart.module.scss";
 import AttackType from "./AttackType";
+import DualDefenseChart from "./DualDefenseChart";
 
 export function helperToggle(
   evt: MouseEvent,
@@ -105,13 +105,6 @@ function Chart() {
     if (def) setHoverDef(def);
   };
 
-  const toggleClick = (atk: TYPES | null, def: TYPES | null) => (
-    evt: MouseEvent,
-  ) => {
-    helperToggle(evt, atk, clickAtk, clickAtk2, setClickAtk, setClickAtk2);
-    helperToggle(evt, def, clickDef, clickDef2, setClickDef, setClickDef2);
-  };
-
   const setClick = (atk: TYPES, def: TYPES) => (evt: MouseEvent) => {
     helperClick(evt, atk, clickAtk, clickAtk2, setClickAtk, setClickAtk2);
     helperClick(evt, def, clickDef, clickDef2, setClickDef, setClickDef2);
@@ -119,56 +112,68 @@ function Chart() {
 
   //* Render
   return (
-    <table className={cn(stl.table)} onMouseLeave={clearHovered}>
-      <thead>
-        <tr>
-          <th className={stl.key}>
-            defense →
-            <br />
-            attack ↴
-          </th>
+    <div className={stl.tables}>
+      <table className={cn(stl.table)} onMouseLeave={clearHovered}>
+        <thead>
+          <tr>
+            <th className={stl.key}>
+              defense →
+              <br />
+              attack ↴
+            </th>
 
-          {typeOrder.map((defType) => (
-            <DefenseType
-              key={defType}
-              def={defType}
-              setHoverDef={setHoverDef}
-            />
-          ))}
-        </tr>
-      </thead>
-
-      <tbody>
-        {typeOrder.map((atkType) => (
-          <tr key={atkType}>
-            <AttackType atk={atkType} setHoverAtk={setHoverAtk} />
-
-            {typeOrder.map((defType) => {
-              const matchAtk =
-                highlightAtk === atkType || clickAtk2 === atkType;
-              const matchDef =
-                highlightDef === defType || clickDef2 === defType;
-              return (
-                <Cell
-                  key={defType}
-                  value={TYPECHART?.[atkType]?.[defType]}
-                  className={cn({
-                    [stl.fade]:
-                      (!!highlightAtk ? !matchAtk : !!highlightDef) &&
-                      (!!highlightDef ? !matchDef : !!highlightAtk) &&
-                      hasClicked,
-                    [stl.highlight]: matchAtk || matchDef,
-                    [stl.highlightExact]: matchAtk && matchDef,
-                  })}
-                  onMouseEnter={setHover(atkType, defType)}
-                  onClick={setClick(atkType, defType)}
-                />
-              );
-            })}
+            {typeOrder.map((defType) => (
+              <DefenseType
+                key={defType}
+                def={defType}
+                setHoverDef={setHoverDef}
+              />
+            ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          {typeOrder.map((atkType) => (
+            <tr key={atkType}>
+              <AttackType atk={atkType} setHoverAtk={setHoverAtk} />
+
+              {typeOrder.map((defType) => {
+                const matchAtk =
+                  highlightAtk === atkType || clickAtk2 === atkType;
+                const matchDef =
+                  highlightDef === defType || clickDef2 === defType;
+                return (
+                  <Cell
+                    key={defType}
+                    value={TYPECHART?.[atkType]?.[defType]}
+                    className={cn({
+                      [stl.fade]:
+                        (!!highlightAtk ? !matchAtk : !!highlightDef) &&
+                        (!!highlightDef ? !matchDef : !!highlightAtk) &&
+                        hasClicked,
+                      [stl.highlight]: matchAtk || matchDef,
+                      [stl.highlightExact]: matchAtk && matchDef,
+                    })}
+                    onMouseEnter={setHover(atkType, defType)}
+                    onClick={setClick(atkType, defType)}
+                  />
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <DualDefenseChart
+        {...{
+          highlightAtk,
+          highlightDef,
+          typeOrder,
+          clearHovered,
+          setHover,
+          setClick,
+        }}
+      />
+    </div>
   );
 }
 
