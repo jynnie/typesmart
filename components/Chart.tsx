@@ -1,26 +1,12 @@
 import React from "react";
 import Box from "ui-box";
 import cn from "classnames";
+import { ChartContext } from "pages";
 import { TYPEORDER, TYPECHART, TYPEINFO, TYPES } from "models/typechart.model";
 
-import stl from "styles/Chart.module.scss";
-import { ChartContext } from "pages";
+import Cell from "components/Cell";
 
-function Cell({ value, ...props }: { value?: number; [prop: string]: any }) {
-  return (
-    <td {...props}>
-      <div
-        className={cn(stl.modifierBox, {
-          [stl.advantage]: value === 2,
-          [stl.disadvantage]: value === 0.5,
-          [stl.immune]: value === 0,
-        })}
-      >
-        {value === 0.5 ? "½" : value}
-      </div>
-    </td>
-  );
-}
+import stl from "styles/Chart.module.scss";
 
 function helperToggle(
   evt: MouseEvent,
@@ -31,12 +17,10 @@ function helperToggle(
   setSecondary: (val: TYPES | null) => void,
 ) {
   if (newType) {
-    const tryingToSetSecondary = !!evt?.metaKey;
-    const setSecondaryType =
-      tryingToSetSecondary && !!primaryType && newType !== primaryType;
+    const tryingToSetSecondary = !!evt?.metaKey && !!primaryType;
 
     if (tryingToSetSecondary) {
-      if (setSecondaryType) {
+      if (newType !== primaryType) {
         if (secondaryType === newType) setSecondary(null);
         else setSecondary(newType);
       } else {
@@ -52,6 +36,7 @@ function helperToggle(
   }
 }
 
+//* Main Chart Component
 function Chart() {
   const {
     clickAtk,
@@ -64,7 +49,7 @@ function Chart() {
     setClickDef2,
   } = React.useContext(ChartContext);
 
-  const [defenseOrder] = React.useState<typeof TYPEORDER>(TYPEORDER);
+  const [typeOrder] = React.useState<typeof TYPEORDER>(TYPEORDER);
 
   const [hoverAtk, setHoverAtk] = React.useState<TYPES | null>(null);
   const [hoverDef, setHoverDef] = React.useState<TYPES | null>(null);
@@ -101,6 +86,7 @@ function Chart() {
     }
   };
 
+  //* Render
   return (
     <table className={cn(stl.table)} onMouseLeave={clearHovered}>
       <thead>
@@ -110,7 +96,8 @@ function Chart() {
             <br />
             attack ↴
           </th>
-          {defenseOrder.map((defType) => (
+
+          {typeOrder.map((defType) => (
             <th
               key={defType}
               onMouseEnter={setHover(null, defType)}
@@ -128,7 +115,7 @@ function Chart() {
       </thead>
 
       <tbody>
-        {TYPEORDER.map((atkType) => (
+        {typeOrder.map((atkType) => (
           <tr key={atkType}>
             <td
               onMouseEnter={setHover(atkType, null)}
@@ -141,7 +128,8 @@ function Chart() {
                 {atkType}
               </Box>
             </td>
-            {defenseOrder.map((defType) => {
+
+            {typeOrder.map((defType) => {
               const matchAtk =
                 highlightAtk === atkType || clickAtk2 === atkType;
               const matchDef =

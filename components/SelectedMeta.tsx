@@ -1,11 +1,29 @@
 import React from "react";
-import Box from "ui-box";
 import cn from "classnames";
 import { TYPECHART } from "models/typechart.model";
-
-import stl from "styles/Meta.module.scss";
 import { ChartContext } from "pages";
 
+import AttackDisplay from "components/AttackDisplay";
+import stl from "styles/Meta.module.scss";
+
+function SwapButton({ onClick }: { onClick: () => void }) {
+  return (
+    <span
+      className={stl.button}
+      role="button"
+      aria-label="Swap type(s)"
+      onClick={onClick}
+    >
+      🔄
+    </span>
+  );
+}
+
+function SwordIcon() {
+  return <span className={stl.type}>⚔️</span>;
+}
+
+//* Main Component
 function SelectedMeta() {
   const {
     clickAtk,
@@ -44,10 +62,7 @@ function SelectedMeta() {
     setClickDef2(oldAtk2);
   }
 
-  function getDisplay(modifier: number) {
-    return modifier === 0.5 ? "½" : modifier === 0.25 ? "¼" : modifier;
-  }
-
+  //* Calculations
   const modifier11 =
     (clickAtk && clickDef && TYPECHART?.[clickAtk]?.[clickDef]) ?? 1;
   const modifier21 =
@@ -59,42 +74,21 @@ function SelectedMeta() {
     (clickAtk2 && clickDef2 && TYPECHART?.[clickAtk2]?.[clickDef2]) ?? 1;
   const modifier2 = modifier12 * modifier22;
 
+  const attackTypes = [
+    { atk: clickAtk, mod: modifier1 },
+    { atk: clickAtk2, mod: modifier2 },
+  ];
+
+  //* Render
   return (
     <div className={stl.container}>
       <div className={stl.rightBox}>
-        {(!!clickAtk || !!clickDef) && (
-          <span
-            className={stl.button}
-            role="button"
-            aria-label="Swap type(s)"
-            onClick={swapTypes}
-          >
-            🔄
-          </span>
-        )}
+        {(!!clickAtk || !!clickDef) && <SwapButton onClick={swapTypes} />}
 
-        {!!clickAtk && <span className={stl.type}>⚔️</span>}
+        {!!clickAtk && <SwordIcon />}
         <div className={stl.attacking}>
-          {[
-            { a: clickAtk, m: modifier1 },
-            { a: clickAtk2, m: modifier2 },
-          ].map((set, i) => (
-            <div key={i}>
-              {!!set.a && <span className={stl.type}>{set.a}</span>}
-              {!!set.a && !!clickDef && (
-                <span
-                  className={cn({
-                    [stl.advantage]: set.m >= 2,
-                    [stl.disadvantage]: set.m <= 0.5,
-                    [stl.immune]: set.m === 0,
-                    [stl.super]: set.m === 4 || set.m === 0.25,
-                  })}
-                >
-                  {" "}
-                  -({getDisplay(set.m)}x)→{" "}
-                </span>
-              )}
-            </div>
+          {attackTypes.map((set, i) => (
+            <AttackDisplay key={i} atk={set.atk} mod={set.mod} def={clickDef} />
           ))}
         </div>
 
@@ -104,6 +98,7 @@ function SelectedMeta() {
           </span>
         )}
       </div>
+
       <div className={stl.button} onClick={clearClicked} role="button">
         Clear
       </div>
