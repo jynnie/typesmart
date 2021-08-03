@@ -4,7 +4,7 @@ import { TYPES } from "models/typechart.model";
 
 import stl from "styles/Meta.module.scss";
 
-function getDisplay(modifier: number) {
+export function getDisplay(modifier: number) {
   return modifier === 0.5 ? "½" : modifier === 0.25 ? "¼" : modifier;
 }
 

@@ -5,10 +5,12 @@ import { ChartContext } from "pages";
 import { TYPEORDER, TYPECHART, TYPEINFO, TYPES } from "models/typechart.model";
 
 import Cell from "components/Cell";
+import DefenseType from "components/DefenseType";
 
 import stl from "styles/Chart.module.scss";
+import AttackType from "./AttackType";
 
-function helperToggle(
+export function helperToggle(
   evt: MouseEvent,
   newType: TYPES | null,
   primaryType: TYPES | null,
@@ -127,18 +129,11 @@ function Chart() {
           </th>
 
           {typeOrder.map((defType) => (
-            <th
+            <DefenseType
               key={defType}
-              onMouseEnter={setHover(null, defType)}
-              onClick={toggleClick(null, defType) as any}
-            >
-              <Box
-                className={cn(stl.typeIcon, stl.defBox)}
-                backgroundColor={TYPEINFO[defType].color}
-              >
-                {defType.slice(0, 3)}
-              </Box>
-            </th>
+              def={defType}
+              setHoverDef={setHoverDef}
+            />
           ))}
         </tr>
       </thead>
@@ -146,17 +141,7 @@ function Chart() {
       <tbody>
         {typeOrder.map((atkType) => (
           <tr key={atkType}>
-            <td
-              onMouseEnter={setHover(atkType, null)}
-              onClick={toggleClick(atkType, null) as any}
-            >
-              <Box
-                className={cn(stl.typeIcon, stl.atkBox)}
-                backgroundColor={TYPEINFO[atkType].color}
-              >
-                {atkType}
-              </Box>
-            </td>
+            <AttackType atk={atkType} setHoverAtk={setHoverAtk} />
 
             {typeOrder.map((defType) => {
               const matchAtk =
