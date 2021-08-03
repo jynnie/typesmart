@@ -22,10 +22,47 @@ function Cell({ value, ...props }: { value?: number; [prop: string]: any }) {
   );
 }
 
+function helperToggle(
+  evt: MouseEvent,
+  newType: TYPES | null,
+  primaryType: TYPES | null,
+  secondaryType: TYPES | null,
+  setPrimary: (val: TYPES | null) => void,
+  setSecondary: (val: TYPES | null) => void,
+) {
+  if (newType) {
+    const tryingToSetSecondary = !!evt?.metaKey;
+    const setSecondaryType =
+      tryingToSetSecondary && !!primaryType && newType !== primaryType;
+
+    if (tryingToSetSecondary) {
+      if (setSecondaryType) {
+        if (secondaryType === newType) setSecondary(null);
+        else setSecondary(newType);
+      } else {
+        setSecondary(null);
+      }
+    } else {
+      if (primaryType === newType) setPrimary(null);
+      else {
+        setPrimary(newType);
+        setSecondary(null);
+      }
+    }
+  }
+}
+
 function Chart() {
-  const { clickAtk, setClickAtk, clickDef, setClickDef } = React.useContext(
-    ChartContext,
-  );
+  const {
+    clickAtk,
+    setClickAtk,
+    clickDef,
+    setClickDef,
+    clickAtk2,
+    setClickAtk2,
+    clickDef2,
+    setClickDef2,
+  } = React.useContext(ChartContext);
 
   const [defenseOrder] = React.useState<typeof TYPEORDER>(TYPEORDER);
 
@@ -41,16 +78,19 @@ function Chart() {
     setHoverAtk(null);
     setHoverDef(null);
   }
-  const setHover = (atk?: TYPES, def?: TYPES) => () => {
+
+  const setHover = (atk: TYPES | null, def: TYPES | null) => () => {
     if (atk) setHoverAtk(atk);
     if (def) setHoverDef(def);
   };
-  const toggleClick = (atk?: TYPES, def?: TYPES) => () => {
-    if (atk && atk !== clickAtk) setClickAtk(atk);
-    if (atk && atk === clickAtk) setClickAtk(null);
-    if (def && def !== clickDef) setClickDef(def);
-    if (def && def === clickDef) setClickDef(null);
+
+  const toggleClick = (atk: TYPES | null, def: TYPES | null) => (
+    evt: MouseEvent,
+  ) => {
+    helperToggle(evt, atk, clickAtk, clickAtk2, setClickAtk, setClickAtk2);
+    helperToggle(evt, def, clickDef, clickDef2, setClickDef, setClickDef2);
   };
+
   const setClick = (atk?: TYPES, def?: TYPES) => () => {
     if (atk !== clickAtk || def !== clickDef) {
       if (atk) setClickAtk(atk ?? null);
@@ -62,12 +102,7 @@ function Chart() {
   };
 
   return (
-    <table
-      className={cn(stl.table, {
-        [stl.hasClicked]: hasClicked,
-      })}
-      onMouseLeave={clearHovered}
-    >
+    <table className={cn(stl.table)} onMouseLeave={clearHovered}>
       <thead>
         <tr>
           <th className={stl.key}>
@@ -76,12 +111,14 @@ function Chart() {
             attack ↴
           </th>
           {defenseOrder.map((defType) => (
-            <th key={defType}>
+            <th
+              key={defType}
+              onMouseEnter={setHover(null, defType)}
+              onClick={toggleClick(null, defType) as any}
+            >
               <Box
                 className={cn(stl.typeIcon, stl.defBox)}
                 backgroundColor={TYPEINFO[defType].color}
-                onMouseEnter={setHover(undefined, defType)}
-                onClick={toggleClick(undefined, defType)}
               >
                 {defType.slice(0, 3)}
               </Box>
@@ -93,19 +130,22 @@ function Chart() {
       <tbody>
         {TYPEORDER.map((atkType) => (
           <tr key={atkType}>
-            <td>
+            <td
+              onMouseEnter={setHover(atkType, null)}
+              onClick={toggleClick(atkType, null) as any}
+            >
               <Box
                 className={cn(stl.typeIcon, stl.atkBox)}
                 backgroundColor={TYPEINFO[atkType].color}
-                onMouseEnter={setHover(atkType)}
-                onClick={toggleClick(atkType)}
               >
                 {atkType}
               </Box>
             </td>
             {defenseOrder.map((defType) => {
-              const matchAtk = highlightAtk === atkType;
-              const matchDef = highlightDef === defType;
+              const matchAtk =
+                highlightAtk === atkType || clickAtk2 === atkType;
+              const matchDef =
+                highlightDef === defType || clickDef2 === defType;
               return (
                 <Cell
                   key={defType}

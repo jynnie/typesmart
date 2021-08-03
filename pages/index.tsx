@@ -11,13 +11,19 @@ import styles from "../styles/Home.module.css";
 export const ChartContext = React.createContext<{
   clickAtk: TYPES | null;
   clickDef: TYPES | null;
+  clickAtk2: TYPES | null;
+  clickDef2: TYPES | null;
   setClickAtk: (val: TYPES | null) => void;
   setClickDef: (val: TYPES | null) => void;
+  setClickAtk2: (val: TYPES | null) => void;
+  setClickDef2: (val: TYPES | null) => void;
 }>(null as any);
 
 export default function Home() {
   const [clickAtk, setClickAtk] = React.useState<TYPES | null>(null);
+  const [clickAtk2, setClickAtk2] = React.useState<TYPES | null>(null);
   const [clickDef, setClickDef] = React.useState<TYPES | null>(null);
+  const [clickDef2, setClickDef2] = React.useState<TYPES | null>(null);
 
   return (
     <body className="light">
@@ -30,7 +36,16 @@ export default function Home() {
       <main className={styles.main}>
         <h1 className={styles.title}>Typesmart</h1>
         <ChartContext.Provider
-          value={{ clickAtk, setClickAtk, clickDef, setClickDef }}
+          value={{
+            clickAtk,
+            setClickAtk,
+            clickDef,
+            setClickDef,
+            clickAtk2,
+            setClickAtk2,
+            clickDef2,
+            setClickDef2,
+          }}
         >
           <SelectedMeta />
           <Chart />

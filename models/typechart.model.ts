@@ -116,7 +116,7 @@ export const TYPEINFO = {
 };
 
 export const TYPECHART: {
-  [attackType in TYPES]?: {
+  [attackType in TYPES]: {
     [defenseType in TYPES]?: number;
   };
 } = {
