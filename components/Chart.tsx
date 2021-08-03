@@ -16,23 +16,48 @@ function helperToggle(
   setPrimary: (val: TYPES | null) => void,
   setSecondary: (val: TYPES | null) => void,
 ) {
-  if (newType) {
-    const tryingToSetSecondary = !!evt?.metaKey && !!primaryType;
+  if (!newType) return;
+  const tryingToSetSecondary = !!evt?.metaKey && !!primaryType;
 
-    if (tryingToSetSecondary) {
-      if (newType !== primaryType) {
-        if (secondaryType === newType) setSecondary(null);
-        else setSecondary(newType);
-      } else {
-        setSecondary(null);
-      }
+  if (tryingToSetSecondary) {
+    if (newType !== primaryType) {
+      if (secondaryType === newType) setSecondary(null);
+      else setSecondary(newType);
     } else {
-      if (primaryType === newType) setPrimary(null);
-      else {
-        setPrimary(newType);
-        setSecondary(null);
-      }
+      setSecondary(null);
     }
+  } else {
+    if (primaryType === newType) setPrimary(null);
+    else {
+      setPrimary(newType);
+      setSecondary(null);
+    }
+  }
+}
+
+function helperClick(
+  evt: MouseEvent,
+  newType: TYPES | null,
+  primaryType: TYPES | null,
+  secondaryType: TYPES | null,
+  setPrimary: (val: TYPES | null) => void,
+  setSecondary: (val: TYPES | null) => void,
+) {
+  if (!newType) return;
+  const tryingToSetSecondary = !!evt.metaKey && !!primaryType;
+
+  if (tryingToSetSecondary) {
+    if (newType !== primaryType) {
+      if (secondaryType === newType) setSecondary(null);
+      else setSecondary(newType);
+    } else {
+      setSecondary(null);
+    }
+  } else {
+    if (newType !== primaryType) setPrimary(newType ?? null);
+    else setPrimary(null);
+
+    setSecondary(null);
   }
 }
 
@@ -85,16 +110,9 @@ function Chart() {
     helperToggle(evt, def, clickDef, clickDef2, setClickDef, setClickDef2);
   };
 
-  const setClick = (atk?: TYPES, def?: TYPES) => () => {
-    if (atk !== clickAtk || def !== clickDef) {
-      if (atk) setClickAtk(atk ?? null);
-      if (def) setClickDef(def ?? null);
-    } else {
-      if (atk) setClickAtk(null);
-      if (def) setClickDef(null);
-    }
-    setClickAtk2(null);
-    setClickDef2(null);
+  const setClick = (atk: TYPES, def: TYPES) => (evt: MouseEvent) => {
+    helperClick(evt, atk, clickAtk, clickAtk2, setClickAtk, setClickAtk2);
+    helperClick(evt, def, clickDef, clickDef2, setClickDef, setClickDef2);
   };
 
   //* Render
