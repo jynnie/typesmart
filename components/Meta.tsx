@@ -34,15 +34,11 @@ function SelectedMeta() {
     setClickAtk2,
     clickDef2,
     setClickDef2,
+    sorting,
+    setSorting,
   } = React.useContext(ChartContext);
 
-  if (!clickAtk && !clickDef) {
-    return (
-      <div className={cn(stl.container, stl.empty)}>
-        No types selected. Click on the chart below to start.
-      </div>
-    );
-  }
+  const hasSelection = !!clickAtk || !!clickDef;
 
   function clearClicked() {
     setClickAtk(null);
@@ -60,6 +56,11 @@ function SelectedMeta() {
     setClickDef(oldAtk);
     setClickAtk2(oldDef2);
     setClickDef2(oldAtk2);
+  }
+
+  function toggleSorting() {
+    if (sorting === "custom") setSorting("alpha");
+    else setSorting("custom");
   }
 
   //* Calculations
@@ -82,25 +83,43 @@ function SelectedMeta() {
   //* Render
   return (
     <div className={stl.container}>
-      <div className={stl.rightBox}>
-        {(!!clickAtk || !!clickDef) && <SwapButton onClick={swapTypes} />}
+      {!!hasSelection ? (
+        <div className={stl.miniContainer}>
+          {(!!clickAtk || !!clickDef) && <SwapButton onClick={swapTypes} />}
 
-        {!!clickAtk && <SwordIcon />}
-        <div className={stl.attacking}>
-          {attackTypes.map((set, i) => (
-            <AttackDisplay key={i} atk={set.atk} mod={set.mod} def={clickDef} />
-          ))}
+          {!!clickAtk && <SwordIcon />}
+          <div className={stl.attacking}>
+            {attackTypes.map((set, i) => (
+              <AttackDisplay
+                key={i}
+                atk={set.atk}
+                mod={set.mod}
+                def={clickDef}
+              />
+            ))}
+          </div>
+
+          {!!clickDef && (
+            <span className={stl.type}>
+              🛡{clickDef} {clickDef2}
+            </span>
+          )}
         </div>
+      ) : (
+        <div className={stl.empty}>
+          No types selected. Click on the chart below to start.
+        </div>
+      )}
 
-        {!!clickDef && (
-          <span className={stl.type}>
-            🛡{clickDef} {clickDef2}
-          </span>
+      <div className={stl.miniContainer}>
+        <div className={stl.button} onClick={toggleSorting} role="button">
+          Sort
+        </div>
+        {!!hasSelection && (
+          <div className={stl.button} onClick={clearClicked} role="button">
+            Clear
+          </div>
         )}
-      </div>
-
-      <div className={stl.button} onClick={clearClicked} role="button">
-        Clear
       </div>
     </div>
   );

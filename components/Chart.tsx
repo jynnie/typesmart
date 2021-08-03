@@ -47,10 +47,14 @@ function Chart() {
     setClickAtk2,
     clickDef2,
     setClickDef2,
+    sorting,
   } = React.useContext(ChartContext);
 
-  const [typeOrder] = React.useState<typeof TYPEORDER>(TYPEORDER);
-
+  const [typeOrder, setTypeOrder] = React.useState<typeof TYPEORDER>(TYPEORDER);
+  const alphabeticalOrder = React.useMemo(
+    () => [...TYPEORDER].sort((a, b) => (a > b ? 1 : a < b ? -1 : 0)),
+    [],
+  );
   const [hoverAtk, setHoverAtk] = React.useState<TYPES | null>(null);
   const [hoverDef, setHoverDef] = React.useState<TYPES | null>(null);
 
@@ -58,6 +62,11 @@ function Chart() {
   const highlightDef = clickDef || hoverDef || null;
 
   const hasClicked = !!clickAtk || !!clickDef;
+
+  React.useEffect(() => {
+    if (sorting === "custom") setTypeOrder(TYPEORDER);
+    else setTypeOrder(alphabeticalOrder);
+  }, [sorting, alphabeticalOrder]);
 
   function clearHovered() {
     setHoverAtk(null);
@@ -84,6 +93,8 @@ function Chart() {
       if (atk) setClickAtk(null);
       if (def) setClickDef(null);
     }
+    setClickAtk2(null);
+    setClickDef2(null);
   };
 
   //* Render
