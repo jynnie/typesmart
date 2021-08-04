@@ -1,6 +1,8 @@
 # Typesmart
 
-**Typesmart** ([typesmart.vercel.app](typesmart.vercel.app)) is an interactive Pokémon Typechart tool to help find type effectiveness.
+**Typesmart** ([typesmart.vercel.app](https://typesmart.vercel.app)) is an interactive Pokémon Typechart tool to help find type effectiveness.
+
+![2021-08-03 22 44 36](https://user-images.githubusercontent.com/7284723/128128562-052f7904-2074-4de2-b04d-bd3fd0435054.gif)
 
 ## ✨ Features
 
