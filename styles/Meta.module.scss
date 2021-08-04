@@ -54,3 +54,9 @@
 .immune {
   color: #94a3b8;
 }
+
+@media only screen and (max-width: 600px) {
+  .empty {
+    line-height: 1.2em;
+  }
+}

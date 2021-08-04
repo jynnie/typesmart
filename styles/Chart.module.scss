@@ -108,3 +108,16 @@
     z-index: 1;
   }
 }
+
+@media only screen and (max-width: 600px) {
+  .tables {
+    width: 100vw;
+    padding: 0 8px;
+    overflow: auto;
+    resize: both;
+  }
+
+  .key {
+    font-size: 0.6rem;
+  }
+}

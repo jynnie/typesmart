@@ -8,9 +8,15 @@ import { ChartContext } from "pages";
 import cstl from "styles/Chart.module.scss";
 import stl from "styles/PokemonSearch.module.scss";
 import { ALL_POKEMON } from "models/pokemon.model";
-import { TYPEINFO, TYPES } from "models/typechart.model";
+import { TYPEINFO } from "models/typechart.model";
 
-function Pokemon({ p }: { p: { name: string; types: string[] } }) {
+function Pokemon({
+  p,
+  clearSearch,
+}: {
+  p: { name: string; types: string[] };
+  clearSearch: () => void;
+}) {
   const { setClickDef, setClickDef2 } = React.useContext(ChartContext);
 
   const handleClick = () => {
@@ -19,6 +25,7 @@ function Pokemon({ p }: { p: { name: string; types: string[] } }) {
     if (primary) setClickDef(primary as any);
     if (secondary) setClickDef2(secondary as any);
     else setClickDef2(null);
+    clearSearch();
   };
 
   return (
@@ -52,6 +59,9 @@ function PokemonSearch() {
   const [searchValue, setSearchValue] = React.useState<string>("");
 
   const allPokemon = ALL_POKEMON;
+  function clearSearch() {
+    setSearchValue("");
+  }
 
   const matchingPokemon =
     (!!searchValue &&
@@ -74,7 +84,7 @@ function PokemonSearch() {
       {!!matchingPokemon && (
         <div className={stl.results}>
           {matchingPokemon.map((p) => (
-            <Pokemon key={p.name} p={p} />
+            <Pokemon key={p.name} {...{ p, clearSearch }} />
           ))}
         </div>
       )}
