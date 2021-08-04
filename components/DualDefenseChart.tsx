@@ -49,12 +49,14 @@ function DualDefenseChart({
               <Box
                 className={cn(stl.typeIcon, stl.defBox)}
                 backgroundColor={TYPEINFO[clickDef].color}
+                color={TYPEINFO[clickDef].font}
               >
                 {clickDef.slice(0, 3)}
               </Box>
               <Box
                 className={cn(stl.typeIcon, stl.defBox)}
                 backgroundColor={TYPEINFO[clickDef2].color}
+                color={TYPEINFO[clickDef2].font}
               >
                 {clickDef2.slice(0, 3)}
               </Box>

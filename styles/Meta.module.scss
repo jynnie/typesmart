@@ -38,21 +38,21 @@
 }
 
 .advantage {
-  color: #65a30d;
+  color: var(--advantage);
   &.super {
-    color: #2563eb;
+    color: var(--super-advantage);
   }
 }
 
 .disadvantage {
-  color: #b91c1c;
+  color: var(--disadvantage);
   &.super {
-    color: #7e22ce;
+    color: var(--super-disadvantage);
   }
 }
 
 .immune {
-  color: #94a3b8;
+  color: var(--immune);
 }
 
 @media only screen and (max-width: 600px) {

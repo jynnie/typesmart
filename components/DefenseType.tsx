@@ -35,6 +35,7 @@ function DefenseType({
       <Box
         className={cn(cstl.typeIcon, cstl.defBox)}
         backgroundColor={TYPEINFO[def].color}
+        color={TYPEINFO[def].font}
       >
         {def.slice(0, 3)}
       </Box>

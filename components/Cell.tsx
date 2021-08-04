@@ -9,6 +9,7 @@ function Cell({ value, ...props }: { value?: number; [prop: string]: any }) {
     <td {...props}>
       <div
         className={cn(stl.modifierBox, {
+          [stl.base]: value === 1 || value === undefined,
           [stl.advantage]: value && value >= 2,
           [stl.disadvantage]: value && value <= 0.5,
           [stl.immune]: value === 0,

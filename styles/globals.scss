@@ -1,36 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto+Mono&display=swap");
 
 :root {
-  --text-primary: #f8fafc;
-  --text-secondary: #e2e8f0;
-  --text-tertiary: #cbd5e1;
-  --text-caption: #94a3b8;
-
-  --secondary: #64748b;
-  --tertiary: #334155;
-  --tertiary50: #33415585;
-  --background: #1e293b;
-
-  --pink-text: #f9a8d4;
-  --pink-border: #ec4899;
-  --pink-background: #ec489994;
-
-  --blue-text: #38bdf8;
-  --blue-border: #075985;
-  --blue-background: #07598594;
-
-  --grey-text: #a1a1aa;
-  --grey-border: #52525b;
-  --grey-background: #52525b94;
-
-  --orange-text: #fbbf24;
-  --orange-border: #b45309;
-  --orange-background: #b4530994;
-
-  --table-size: min(calc(100vw - 4rem - 8px), calc(100vh - 4rem - 8px));
-}
-
-body.light {
   --text-primary: #0f172a;
   --text-secondary: #334155;
   --text-tertiary: #64748b;
@@ -40,33 +10,36 @@ body.light {
   --tertiary: #e2e8f0;
   --tertiary50: #e2e8f085;
 
+  --chart-background: #fafafa;
   --background: #fafafa;
 
-  --pink-text: #ec4899;
-  --pink-border: #f9a8d4;
-  --pink-background: #fbcfe8;
+  // Colors chosen from IBMs Data Visualization Palette
+  --advantage: #4fa1fb;
+  --advantage-color: black;
+  --super-advantage: #25458d;
 
-  --blue-text: #3b82f6;
-  --blue-border: #93c5fd;
-  --blue-background: #bfdbfe;
+  --disadvantage: #f55e57;
+  --disadvantage-color: black;
+  --super-disadvantage: #8d2520;
 
-  --grey-text: #64748b;
-  --grey-border: #94a3b8;
-  --grey-background: #e2e8f0;
+  --immune: #f0adb0;
+  --immune-color: #621916;
 
-  --orange-text: #f59e0b;
-  --orange-border: #fbbf24;
-  --orange-background: #fde68a;
+  --table-size: min(calc(100vw - 4rem - 8px), calc(100vh - 4rem - 8px));
+
+  --primary-font: "Poppins", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  --secondary-font: "Roboto Mono", monospace;
+  --type-font: var(--secondary-font);
 }
 
 html,
 body {
-  background-color: #fafafa;
+  background-color: var(--background);
   color: var(--text-tertiary);
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: (var(--primary-font));
   font-size: unset;
 }
 

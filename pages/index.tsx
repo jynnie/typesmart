@@ -30,7 +30,7 @@ export default function Home() {
   const [sorting, setSorting] = React.useState<"custom" | "alpha">("custom");
 
   return (
-    <body className="light">
+    <body>
       <Head>
         <title>Typesmart</title>
         <meta name="description" content="Pokémon Typechart tool" />

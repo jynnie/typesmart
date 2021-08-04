@@ -35,6 +35,7 @@ function AttackType({
       <Box
         className={cn(cstl.typeIcon, cstl.atkBox)}
         backgroundColor={TYPEINFO[atk].color}
+        color={TYPEINFO[atk].font}
       >
         {atk}
       </Box>

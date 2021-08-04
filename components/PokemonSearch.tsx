@@ -46,6 +46,7 @@ function Pokemon({
             key={t}
             className={cn(stl.type, stl.typeIcon, cstl.typeIcon, cstl.defBox)}
             backgroundColor={(TYPEINFO as any)[t]?.color}
+            color={(TYPEINFO as any)[t].font}
           >
             {t}
           </Box>

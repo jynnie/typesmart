@@ -43,75 +43,93 @@ export const TYPEORDER = [
 export const TYPEINFO = {
   [TYPES.normal]: {
     name: "normal",
-    color: "#939386",
+    color: "#B1B1BA",
+    font: "black",
   },
   [TYPES.fire]: {
     name: "fire",
-    color: "#E15B32",
+    color: "#F55E57",
+    font: "black",
   },
   [TYPES.water]: {
     name: "water",
-    color: "#6199F6",
+    color: "#54AFF4",
+    font: "black",
   },
   [TYPES.electric]: {
     name: "electric",
-    color: "#F1D248",
+    color: "#F2CB2F",
+    font: "black",
   },
   [TYPES.grass]: {
     name: "grass",
-    color: "#88CC63",
+    color: "#61D879",
+    font: "black",
   },
   [TYPES.ice]: {
     name: "ice",
-    color: "#7ECCFD",
+    color: "#5BCBB7",
+    font: "black",
   },
   [TYPES.fighting]: {
     name: "fighting",
-    color: "#B5644E",
+    color: "#B1434E",
+    font: "white",
   },
   [TYPES.poison]: {
     name: "poison",
-    color: "#A9649E",
+    color: "#D96DF5",
+    font: "black",
   },
   [TYPES.ground]: {
     name: "ground",
-    color: "#DBC263",
+    color: "#EB8E3E",
+    font: "black",
   },
   [TYPES.flying]: {
     name: "flying",
-    color: "#939FFC",
+    color: "#A8C2FB",
+    font: "black",
   },
   [TYPES.psychic]: {
     name: "psychic",
-    color: "#E46A9F",
+    color: "#E56CAC",
+    font: "black",
   },
   [TYPES.bug]: {
     name: "bug",
-    color: "#B0BF36",
+    color: "#A9C643",
+    font: "black",
   },
   [TYPES.rock]: {
     name: "rock",
-    color: "#BDB172",
+    color: "#D2BA5C",
+    font: "black",
   },
   [TYPES.ghost]: {
     name: "ghost",
-    color: "#706FBE",
+    color: "#6D76C1",
+    font: "white",
   },
   [TYPES.dragon]: {
     name: "dragon",
-    color: "#8170EC",
+    color: "#7D68DC",
+    font: "white",
   },
   [TYPES.dark]: {
     name: "dark",
-    color: "#7B5F4D",
+    color: "#4B3B2F",
+    font: "white",
   },
   [TYPES.steel]: {
     name: "steel",
-    color: "#B0B0BF",
+    color: "#B8CCD1",
+    font: "black",
   },
   [TYPES.fairy]: {
     name: "fairy",
-    color: "#E9A5ED",
+    color: "#F6AAFA",
+    font: "black",
   },
 };
 
