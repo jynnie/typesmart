@@ -33,9 +33,9 @@ export const TYPEORDER = [
   TYPES.psychic,
   TYPES.bug,
   TYPES.rock,
-  TYPES.dark,
-  TYPES.ghost,
   TYPES.steel,
+  TYPES.ghost,
+  TYPES.dark,
   TYPES.dragon,
   TYPES.fairy,
 ];
