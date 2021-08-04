@@ -3,7 +3,7 @@
   gap: 1rem;
 
   margin-top: 8px;
-  width: var(--table-size);
+  width: calc(var(--table-size) - 24px);
 }
 
 .search {

@@ -2,12 +2,13 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  width: var(--table-size);
+  width: calc(var(--table-size) - 24px);
 
   margin-bottom: 0.6rem;
 
   &.empty {
     color: var(--text-caption);
+    font-size: 0.8em;
   }
 }
 

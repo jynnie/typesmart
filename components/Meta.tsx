@@ -2,6 +2,7 @@ import React from "react";
 import cn from "classnames";
 import { TYPECHART } from "models/typechart.model";
 import { ChartContext } from "pages";
+import { Tooltip } from "antd";
 
 import AttackDisplay from "components/AttackDisplay";
 import stl from "styles/Meta.module.scss";
@@ -112,6 +113,14 @@ function SelectedMeta() {
       )}
 
       <div className={stl.miniContainer}>
+        {!!hasSelection && !clickDef2 && !clickAtk2 && (
+          <Tooltip
+            title="Ctrl/Cmd-Click to select a second type."
+            placement="left"
+          >
+            ℹ️
+          </Tooltip>
+        )}
         <div className={stl.button} onClick={toggleSorting} role="button">
           Sort
         </div>

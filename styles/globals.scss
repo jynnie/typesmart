@@ -43,10 +43,6 @@ body {
   font-size: unset;
 }
 
-body {
-  width: 100vw;
-}
-
 a {
   color: inherit;
   text-decoration: none;
@@ -104,76 +100,4 @@ h2 {
 
 p.caption {
   color: var(--text-caption);
-}
-
-//----------------------------------#01F2DF
-
-.ant-modal-content {
-  background-color: var(--background);
-
-  .ant-modal-header {
-    background-color: var(--background);
-    border-bottom-color: var(--tertiary);
-  }
-
-  .ant-modal-footer {
-    background-color: var(--background);
-    border-top-color: var(--tertiary);
-  }
-}
-
-.ant-tooltip-inner,
-.ant-popover-inner,
-.ant-message-notice-content,
-.ant-select-dropdown {
-  background-color: var(--tertiary);
-}
-
-.ant-select:not(.ant-select-customize-input) .ant-select-selector,
-.ant-input,
-.ant-checkbox-inner {
-  border-color: var(--secondary);
-}
-
-.ant-modal .ant-picker-clear,
-.ant-modal .ant-slider-handle,
-.ant-modal .ant-anchor-wrapper,
-.ant-modal .ant-collapse-content,
-.ant-modal .ant-timeline-item-head,
-.ant-modal .ant-card {
-  background-color: var(--background);
-}
-
-.ant-timeline-item-tail {
-  border-left-color: var(--tertiary);
-}
-
-.ant-timeline .ant-timeline-item:last-child .ant-timeline-item-tail {
-  display: none;
-}
-
-.ant-badge-status-processing {
-  position: absolute;
-  overflow: visible;
-}
-
-.ant-btn {
-  border-color: var(--tertiary);
-}
-
-.ant-tabs-top > .ant-tabs-nav::before {
-  border-color: var(--tertiary);
-}
-
-.ant-tabs-tab {
-  &.ant-tabs-tab-active .ant-tabs-tab-btn {
-    color: var(--orange-text);
-  }
-  &:hover {
-    color: var(--text-primary);
-  }
-}
-
-.ant-tabs-ink-bar {
-  background-color: var(--orange-text);
 }
