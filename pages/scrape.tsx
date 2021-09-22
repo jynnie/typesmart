@@ -55,6 +55,10 @@ export default function TypeScraper() {
   const finishedScraping =
     progress > 0 && progress === allPokemonRef.current?.length;
 
+  const returnValue = allPokemonRef.current
+    .filter((p) => !!p.isDefault)
+    .map((p) => ({ name: p.name, types: p.types }));
+
   return (
     <body>
       <Head>
@@ -76,11 +80,7 @@ export default function TypeScraper() {
           <>
             <h3>Results</h3>
             <textarea
-              value={JSON.stringify(
-                allPokemonRef.current
-                  .filter((p) => !!p.isDefault)
-                  .map((p) => ({ name: p.name, types: p.types })),
-              )}
+              value={JSON.stringify(returnValue)}
               style={{ width: "calc(100vw - 24px)", fontSize: "12px" }}
             />
           </>
