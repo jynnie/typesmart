@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Box from "ui-box";
+import _ from "lodash";
 
 import styles from "../styles/Home.module.css";
 
@@ -56,7 +57,18 @@ export default function TypeScraper() {
     progress > 0 && progress === allPokemonRef.current?.length;
 
   const returnValue = allPokemonRef.current
-    .filter((p) => !!p.isDefault)
+    .filter((p) => {
+      if (p.isDefault) return true;
+      else {
+        const firstName = p.name.split("-")[0];
+        const defaultPokemon = allPokemonRef.current.find(
+          (p) => firstName === p.name,
+        );
+        if (!defaultPokemon) return true;
+        return !_.isEqual(defaultPokemon.types, p.types);
+      }
+      return true;
+    })
     .map((p) => ({ name: p.name, types: p.types }));
 
   return (
