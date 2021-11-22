@@ -44,6 +44,7 @@ function helperClick(
   secondaryType: TYPES | null,
   setPrimary: (val: TYPES | null) => void,
   setSecondary: (val: TYPES | null) => void,
+  canClear?: boolean,
 ) {
   if (!newType) return;
   const tryingToSetSecondary = !!evt.metaKey && !!primaryType;
@@ -57,7 +58,7 @@ function helperClick(
     }
   } else {
     if (newType !== primaryType) setPrimary(newType ?? null);
-    else setPrimary(null);
+    else if (canClear !== false) setPrimary(null);
 
     setSecondary(null);
   }
@@ -106,8 +107,30 @@ function Chart() {
   };
 
   const setClick = (atk: TYPES, def: TYPES | null) => (evt: MouseEvent) => {
-    helperClick(evt, atk, clickAtk, clickAtk2, setClickAtk, setClickAtk2);
-    helperClick(evt, def, clickDef, clickDef2, setClickDef, setClickDef2);
+    // WORKAROUND: If atk is changing but not def, we don't want to
+    // unselect the chosen def type. This checks if there's no diff.
+    // and only then can we clear a type on click.
+    const canClear =
+      (atk !== clickAtk && def !== clickDef) ||
+      (atk === clickAtk && def === clickDef);
+    helperClick(
+      evt,
+      atk,
+      clickAtk,
+      clickAtk2,
+      setClickAtk,
+      setClickAtk2,
+      canClear,
+    );
+    helperClick(
+      evt,
+      def,
+      clickDef,
+      clickDef2,
+      setClickDef,
+      setClickDef2,
+      canClear,
+    );
   };
 
   //* Render
