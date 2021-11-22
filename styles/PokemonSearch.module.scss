@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  gap: 1rem;
+  align-items: flex-start;
 
   margin-top: 8px;
   width: calc(var(--table-size) - 24px);
@@ -9,6 +9,8 @@
 .search {
   flex-shrink: 0;
   max-width: 200px;
+  margin-right: 1rem;
+  margin-left: 0.5rem;
 }
 
 .result {
@@ -23,6 +25,7 @@
     cursor: pointer;
     transition: background 0.1s;
     border-radius: 4px;
+    flex-shrink: 0;
 
     &:hover {
       background: var(--tertiary);
@@ -42,7 +45,8 @@
   }
 
   & {
-    width: 80px;
+    min-width: 80px;
+    width: 100%;
   }
 }
 
