@@ -115,7 +115,9 @@ function SelectedMeta() {
       <div className={stl.miniContainer}>
         {!!hasSelection && !clickDef2 && !clickAtk2 && (
           <Tooltip
-            title="Ctrl/Cmd-Click to select a second type."
+            title={`${
+              /(Mac)/i.test(navigator.userAgent) ? "⌘" : "Ctrl"
+            }+Click to select a second type.`}
             placement="left"
           >
             ℹ️
