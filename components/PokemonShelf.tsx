@@ -34,6 +34,7 @@ function Button({
 }
 
 type IPokemon = {
+  name: string;
   types: TYPES[];
 };
 
@@ -65,11 +66,13 @@ function Pokemon({
   data,
   index,
   remove,
+  changeName,
   calcTypes,
 }: {
   data: IPokemon;
   index: number;
   remove: () => void;
+  changeName: (value: string) => void;
   calcTypes: CalcTypes;
 }) {
   const { setClickAtk, setClickDef, setClickAtk2, setClickDef2 } =
@@ -109,8 +112,7 @@ function Pokemon({
 
   return (
     <div className={stl.singlePokemon}>
-      <div className={stl.name}>
-        #{index}
+      <div className={stl.nameContainer}>
         <div
           className={cn(pstl.types, stl.types, {
             [pstl.dualDef]: data.types.length > 1,
@@ -132,6 +134,13 @@ function Pokemon({
             </Box>
           ))}
         </div>
+        <input
+          className={stl.name}
+          value={data.name}
+          onChange={(e) => changeName(e.target.value)}
+          type="text"
+          maxLength={12}
+        />
       </div>
 
       <Box className={stl.actions} justifyContent="space-between">
@@ -199,6 +208,7 @@ function PokemonShelf() {
   function addToShelf(types: TYPES[]) {
     const newShelfData = [...shelfData];
     newShelfData.push({
+      name: `#${newShelfData.length + 1}`,
       types,
     });
     setShelfData(newShelfData);
@@ -212,6 +222,13 @@ function PokemonShelf() {
     const types = [clickDef, clickDef2].filter((k) => !!k) as TYPES[];
     if (types.length > 0) addToShelf(types);
   }
+
+  const editNameOfPokemon = (index: number) => (newName: string) => {
+    const newShelfData = [...shelfData];
+    newShelfData[index].name = newName;
+    setShelfData(newShelfData);
+  };
+
   const removeFromShelf = (index: number) => () => {
     const newShelfData = [...shelfData].filter((_, i) => i !== index);
     setShelfData(newShelfData);
@@ -276,6 +293,7 @@ function PokemonShelf() {
               data={d}
               index={i}
               remove={removeFromShelf(i)}
+              changeName={editNameOfPokemon(i)}
               calcTypes={calcTypes}
             />
           ))}

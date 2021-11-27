@@ -67,15 +67,40 @@
   flex-direction: column;
   gap: 4px;
 
-  .name {
+  .nameContainer {
     display: flex;
     gap: 8px;
     align-items: center;
   }
 
+  .name {
+    width: max-content;
+    flex-grow: 0;
+    flex-basis: max-content;
+    flex-shrink: 1;
+    min-width: 0;
+    padding: 0;
+
+    border: 0;
+    background: none;
+
+    transition: background 0.2s;
+
+    &:hover {
+      background: var(--tertiary50);
+    }
+    &:active,
+    &:focus {
+      outline: 0;
+      border: 0;
+      margin-bottom: -2px;
+      border-bottom: 2px solid var(--secondary);
+    }
+  }
+
   .types {
-    width: 120px;
-    max-width: 100%;
+    width: 100px;
+    flex-shrink: 0;
   }
 
   .actions {
