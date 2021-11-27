@@ -14,6 +14,9 @@
 - Search Pokémon to find their type and select their type in chart
 - Sort types by "official" or alphabetical order
 - Responsive, clean designs. Color-blind friendly colors for type effectiveness
+- Save type profiles to a shelf for common checks you might make. Easily plug profiles back into the chart.
+
+![2021-11-26 22 33 01](https://user-images.githubusercontent.com/7284723/143671034-36626e10-dcac-4eca-bf1f-e1e74ac0bc90.gif)
 
 ## 🔨 Development
 
