@@ -52,7 +52,21 @@ export default function Home() {
     <body>
       <Head>
         <title>Typesmart</title>
-        <meta name="description" content="Pokémon Typechart tool" />
+        <meta
+          name="og:title"
+          property="og:title"
+          content="Typesmart: Interactive Pokémon Typechart"
+        />
+        <meta property="og:url" content="https://typesmart.vercel.app/" />
+        <meta
+          name="og:description"
+          content="Interactive Pokémon Typechart, with type searching and dual-type support."
+        />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:creator" content="@jynniit" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
