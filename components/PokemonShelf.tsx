@@ -46,18 +46,19 @@ type CalcTypes = {
 
 //* Single Pokemon Saved Listing
 function isGoodForAtk(mod1: number, mod2: number): string {
-  if (mod1 > 2 || mod2 > 2) return "⭐️";
+  if (mod1 > 2 || mod2 > 2) return "💖";
   if (mod1 > 1 || mod2 > 1) return "👍";
-  if (mod1 < 1 && mod2 < 1) return "👎";
-  return "➖";
+  if (mod1 < 0.5 && mod2 < 0.5) return "💀";
+  if (mod1 < 1 && mod2 < 1) return "❌";
+  return "–";
 }
 
 function isGoodForDef(mod1: number, mod2: number): string {
   const worstModifier = Math.max(mod1, mod2);
-  if (worstModifier > 1) return "👎";
+  if (worstModifier > 1) return "❌";
   if (worstModifier < 0.5) return "💀";
   if (worstModifier < 1) return "👍";
-  return "➖";
+  return "–";
 }
 
 function Pokemon({
@@ -169,7 +170,10 @@ function PokemonShelf() {
   // to put in as attack or defender are against. If mix, looks
   // at the opposite type in the chart. Otherwise, all against
   // the attacker or defender.
-  const [recommend, setRecommend] = React.useState<AGAINST>(AGAINST.mix);
+  const [recommend, setRecommend] = useLocalStorage(
+    "recommendAgainst",
+    AGAINST.mix,
+  );
   const calcTypes: CalcTypes = {};
   if (recommend === AGAINST.mix) {
     calcTypes.calcAtk = clickAtk;
