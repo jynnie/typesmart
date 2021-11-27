@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Box from "ui-box";
+import cn from "classnames";
 import { TYPES } from "models/typechart.model";
 
 import Chart from "components/Chart";
@@ -20,6 +21,8 @@ export const ChartContext = React.createContext<{
   setClickAtk2: (val: TYPES | null) => void;
   setClickDef2: (val: TYPES | null) => void;
   setSorting: (val: "custom" | "alpha") => void;
+  showShelf: boolean;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }>(null as any);
 
 export default function Home() {
@@ -28,6 +31,7 @@ export default function Home() {
   const [clickDef, setClickDef] = React.useState<TYPES | null>(null);
   const [clickDef2, setClickDef2] = React.useState<TYPES | null>(null);
   const [sorting, setSorting] = React.useState<"custom" | "alpha">("custom");
+  const [showShelf, setShow] = React.useState<boolean>(false);
 
   return (
     <body>
@@ -37,7 +41,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <main className={cn(styles.main, { [styles.showingShelf]: showShelf })}>
         <h1 className={styles.title}>Typesmart</h1>
         <ChartContext.Provider
           value={{
@@ -51,6 +55,8 @@ export default function Home() {
             setClickDef2,
             sorting,
             setSorting,
+            showShelf,
+            setShow,
           }}
         >
           <SelectedMeta />

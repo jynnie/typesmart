@@ -1,0 +1,84 @@
+.button {
+  padding: 0.1rem 0.4rem;
+  transition: background 0.2s;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--tertiary);
+  }
+
+  &.fixed {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+.shelf {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  z-index: 9;
+
+  padding: 1rem;
+  width: 300px;
+  max-width: 100vw;
+  height: 100vh;
+
+  background: var(--background);
+  box-shadow: -6px 0px 12px var(--tertiary50);
+
+  transition: right 0.4s;
+
+  &.show {
+    right: 0;
+  }
+
+  caption {
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.25rem;
+  }
+}
+
+.saveButtons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.savedPokemon {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 0.5rem;
+}
+
+.singlePokemon {
+  padding: 0.5rem;
+  border: 1px solid var(--secondary);
+  border-radius: 4px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .name {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .types {
+    width: 120px;
+    max-width: 100%;
+  }
+
+  .actions {
+    display: flex;
+    gap: 4px;
+  }
+}

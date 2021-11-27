@@ -5,6 +5,8 @@ import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { ChartContext } from "pages";
 
+import PokemonShelf from "./PokemonShelf";
+
 import cstl from "styles/Chart.module.scss";
 import stl from "styles/PokemonSearch.module.scss";
 import { ALL_POKEMON } from "models/pokemon.model";
@@ -82,13 +84,12 @@ function PokemonSearch() {
           allowClear
         />
       </div>
-      {!!matchingPokemon && (
-        <div className={stl.results}>
-          {matchingPokemon.map((p) => (
-            <Pokemon key={p.name} {...{ p, clearSearch }} />
-          ))}
-        </div>
-      )}
+      <div className={stl.results}>
+        {matchingPokemon?.map((p) => (
+          <Pokemon key={p.name} {...{ p, clearSearch }} />
+        ))}
+      </div>
+      <PokemonShelf />
     </div>
   );
 }

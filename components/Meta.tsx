@@ -1,5 +1,4 @@
 import React from "react";
-import cn from "classnames";
 import { TYPECHART } from "models/typechart.model";
 import { ChartContext } from "pages";
 import { Tooltip } from "antd";
