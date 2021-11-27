@@ -37,6 +37,13 @@ type IPokemon = {
   types: TYPES[];
 };
 
+type CalcTypes = {
+  calcAtk?: TYPES | null;
+  calcAtk2?: TYPES | null;
+  calcDef?: TYPES | null;
+  calcDef2?: TYPES | null;
+};
+
 //* Single Pokemon Saved Listing
 function isGoodForAtk(mod1: number, mod2: number): string {
   if (mod1 > 2 || mod2 > 2) return "⭐️";
@@ -49,7 +56,7 @@ function isGoodForDef(mod1: number, mod2: number): string {
   const worstModifier = Math.max(mod1, mod2);
   if (worstModifier > 1) return "👎";
   if (worstModifier < 0.5) return "💀";
-  if (worstModifier < 1) return "👎";
+  if (worstModifier < 1) return "👍";
   return "➖";
 }
 
@@ -57,21 +64,16 @@ function Pokemon({
   data,
   index,
   remove,
+  calcTypes,
 }: {
   data: IPokemon;
   index: number;
   remove: () => void;
+  calcTypes: CalcTypes;
 }) {
-  const {
-    clickAtk,
-    setClickAtk,
-    clickDef,
-    setClickDef,
-    clickAtk2,
-    setClickAtk2,
-    clickDef2,
-    setClickDef2,
-  } = React.useContext(ChartContext);
+  const { setClickAtk, setClickDef, setClickAtk2, setClickDef2 } =
+    React.useContext(ChartContext);
+  const { calcAtk, calcAtk2, calcDef, calcDef2 } = calcTypes;
 
   //* Calculations
   const type1 = data.types[0];
@@ -79,20 +81,20 @@ function Pokemon({
   const TC = TYPECHART as any;
 
   // How would type do for attacking against set defense
-  const type1ForAttack1 = (type1 && clickDef && TC?.[type1]?.[clickDef]) ?? 1;
-  const type1ForAttack2 = (type1 && clickDef2 && TC?.[type1]?.[clickDef2]) ?? 1;
+  const type1ForAttack1 = (type1 && calcDef && TC?.[type1]?.[calcDef]) ?? 1;
+  const type1ForAttack2 = (type1 && calcDef2 && TC?.[type1]?.[calcDef2]) ?? 1;
   const type1ForAttack = type1ForAttack1 * type1ForAttack2;
-  const type2ForAttack1 = (type2 && clickDef && TC?.[type2]?.[clickDef]) ?? 1;
-  const type2ForAttack2 = (type2 && clickDef2 && TC?.[type2]?.[clickDef2]) ?? 1;
-  const type2ForAttack = type2ForAttack1 * type2ForAttack2;
+  const type2ForAttack1 = (type2 && calcDef && TC?.[type2]?.[calcDef]) ?? 1;
+  const type2ForAttack2 = (type2 && calcDef2 && TC?.[type2]?.[calcDef2]) ?? 1;
+  const type2ForAttack = !!type2 && type2ForAttack1 * type2ForAttack2;
 
   // How would type do as defense against set attacking
-  const type1ForDef1 = (type1 && clickAtk && TC?.[clickAtk]?.[type1]) ?? 1;
-  const type1ForDef2 = (type1 && clickAtk2 && TC?.[clickAtk2]?.[type1]) ?? 1;
+  const type1ForDef1 = (type1 && calcAtk && TC?.[calcAtk]?.[type1]) ?? 1;
+  const type1ForDef2 = (type1 && calcAtk2 && TC?.[calcAtk2]?.[type1]) ?? 1;
   const type1ForDef = type1ForDef1 * type1ForDef2;
-  const type2ForDef1 = (type2 && clickAtk && TC?.[clickAtk]?.[type2]) ?? 1;
-  const type2ForDef2 = (type2 && clickAtk2 && TC?.[clickAtk2]?.[type2]) ?? 1;
-  const type2ForDef = type2ForDef1 * type2ForDef2;
+  const type2ForDef1 = (type2 && calcAtk && TC?.[calcAtk]?.[type2]) ?? 1;
+  const type2ForDef2 = (type2 && calcAtk2 && TC?.[calcAtk2]?.[type2]) ?? 1;
+  const type2ForDef = !!type2 && type2ForDef1 * type2ForDef2;
 
   function loadAsAtk() {
     if (type1) setClickAtk(type1);
@@ -151,11 +153,40 @@ function Pokemon({
 }
 
 //* Pokemon Shelf
+enum AGAINST {
+  mix = "mix",
+  atk = "atk",
+  def = "def",
+}
 function PokemonShelf() {
   const { clickAtk, clickDef, clickAtk2, clickDef2, showShelf, setShow } =
     React.useContext(ChartContext);
 
   const [shelfData, setShelfData] = useLocalStorage("shelf", [] as IPokemon[]);
+
+  //* Create the Types to Calculate Against
+  // Choose which type we're calculating the recommendations
+  // to put in as attack or defender are against. If mix, looks
+  // at the opposite type in the chart. Otherwise, all against
+  // the attacker or defender.
+  const [recommend, setRecommend] = React.useState<AGAINST>(AGAINST.mix);
+  const calcTypes: CalcTypes = {};
+  if (recommend === AGAINST.mix) {
+    calcTypes.calcAtk = clickAtk;
+    calcTypes.calcAtk2 = clickAtk2;
+    calcTypes.calcDef = clickDef;
+    calcTypes.calcDef2 = clickDef2;
+  } else if (recommend === AGAINST.atk) {
+    calcTypes.calcAtk = clickAtk;
+    calcTypes.calcAtk2 = clickAtk2;
+    calcTypes.calcDef = clickAtk;
+    calcTypes.calcDef2 = clickAtk2;
+  } else if (recommend === AGAINST.def) {
+    calcTypes.calcAtk = clickDef;
+    calcTypes.calcAtk2 = clickDef2;
+    calcTypes.calcDef = clickDef;
+    calcTypes.calcDef2 = clickDef2;
+  }
 
   function toggleShelf() {
     setShow((s) => !s);
@@ -196,7 +227,9 @@ function PokemonShelf() {
 
         <h3>Pokémon Shelf</h3>
         <div className={stl.saveButtons}>
-          Add:
+          <Box is="span" flexGrow={1}>
+            Add:
+          </Box>
           <Button
             label="Save Defense Types"
             content="🛡 Defender"
@@ -208,10 +241,39 @@ function PokemonShelf() {
             onClick={saveAtkToShelf}
           />
         </div>
+        <div className={stl.saveButtons}>
+          <Box is="span" flexGrow={1}>
+            Against:
+          </Box>
+          <Button
+            className={cn({ [stl.selected]: recommend === AGAINST.mix })}
+            label="Mix"
+            content="🥗"
+            onClick={() => setRecommend(AGAINST.mix)}
+          />
+          <Button
+            className={cn({ [stl.selected]: recommend === AGAINST.def })}
+            label="Defense Types"
+            content="🛡"
+            onClick={() => setRecommend(AGAINST.def)}
+          />
+          <Button
+            className={cn({ [stl.selected]: recommend === AGAINST.atk })}
+            label="Attack Types"
+            content="⚔️"
+            onClick={() => setRecommend(AGAINST.atk)}
+          />
+        </div>
 
         <div className={stl.savedPokemon}>
           {shelfData.map((d, i) => (
-            <Pokemon key={i} data={d} index={i} remove={removeFromShelf(i)} />
+            <Pokemon
+              key={i}
+              data={d}
+              index={i}
+              remove={removeFromShelf(i)}
+              calcTypes={calcTypes}
+            />
           ))}
         </div>
         {!shelfData?.length && (
