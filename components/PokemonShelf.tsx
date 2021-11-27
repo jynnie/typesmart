@@ -7,7 +7,7 @@ import { useLocalStorage } from "utils/useLocalStorage";
 import cstl from "styles/Chart.module.scss";
 import pstl from "styles/PokemonSearch.module.scss";
 import stl from "styles/PokemonShelf.module.scss";
-import { TYPEINFO, TYPECHART, TYPES } from "models/typechart.model";
+import { TYPEINFO, TYPECHART, TYPES, IPokemon } from "models/typechart.model";
 
 //* Generic Button
 function Button({
@@ -32,11 +32,6 @@ function Button({
     </span>
   );
 }
-
-type IPokemon = {
-  name: string;
-  types: TYPES[];
-};
 
 type CalcTypes = {
   calcAtk?: TYPES | null;
@@ -169,10 +164,17 @@ enum AGAINST {
   def = "def",
 }
 function PokemonShelf() {
-  const { clickAtk, clickDef, clickAtk2, clickDef2, showShelf, setShow } =
-    React.useContext(ChartContext);
-
-  const [shelfData, setShelfData] = useLocalStorage("shelf", [] as IPokemon[]);
+  const {
+    clickAtk,
+    clickDef,
+    clickAtk2,
+    clickDef2,
+    showShelf,
+    setShow,
+    shelfData,
+    setShelfData,
+    addToShelf,
+  } = React.useContext(ChartContext);
 
   //* Create the Types to Calculate Against
   // Choose which type we're calculating the recommendations
@@ -203,15 +205,6 @@ function PokemonShelf() {
 
   function toggleShelf() {
     setShow((s) => !s);
-  }
-
-  function addToShelf(types: TYPES[]) {
-    const newShelfData = [...shelfData];
-    newShelfData.push({
-      name: `#${newShelfData.length + 1}`,
-      types,
-    });
-    setShelfData(newShelfData);
   }
 
   function saveAtkToShelf() {

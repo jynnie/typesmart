@@ -1,3 +1,8 @@
+export type IPokemon = {
+  name: string;
+  types: TYPES[];
+};
+
 export enum TYPES {
   normal = "normal",
   fire = "fire",

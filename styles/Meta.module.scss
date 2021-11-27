@@ -38,6 +38,24 @@
   text-transform: capitalize;
 }
 
+.sword {
+  &::after {
+    content: "⚔️";
+  }
+}
+.shield {
+  &::after {
+    content: "🛡";
+  }
+}
+.sword,
+.shield {
+  &:hover::after {
+    content: "💾";
+    cursor: pointer;
+  }
+}
+
 .advantage {
   color: var(--advantage);
   &.super {

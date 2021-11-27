@@ -2,7 +2,8 @@ import React from "react";
 import Head from "next/head";
 import Box from "ui-box";
 import cn from "classnames";
-import { TYPES } from "models/typechart.model";
+import { TYPES, IPokemon } from "models/typechart.model";
+import { useLocalStorage } from "utils/useLocalStorage";
 
 import Chart from "components/Chart";
 import SelectedMeta from "components/Meta";
@@ -23,6 +24,9 @@ export const ChartContext = React.createContext<{
   setSorting: (val: "custom" | "alpha") => void;
   showShelf: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
+  shelfData: IPokemon[];
+  setShelfData: (val: IPokemon[]) => void;
+  addToShelf: (val: TYPES[]) => void;
 }>(null as any);
 
 export default function Home() {
@@ -32,6 +36,17 @@ export default function Home() {
   const [clickDef2, setClickDef2] = React.useState<TYPES | null>(null);
   const [sorting, setSorting] = React.useState<"custom" | "alpha">("custom");
   const [showShelf, setShow] = React.useState<boolean>(false);
+
+  const [shelfData, setShelfData] = useLocalStorage("shelf", [] as IPokemon[]);
+
+  function addToShelf(types: TYPES[]) {
+    const newShelfData = [...shelfData];
+    newShelfData.push({
+      name: `#${newShelfData.length + 1}`,
+      types: types.filter((t) => !!t),
+    });
+    setShelfData(newShelfData);
+  }
 
   return (
     <body>
@@ -57,6 +72,9 @@ export default function Home() {
             setSorting,
             showShelf,
             setShow,
+            shelfData,
+            setShelfData,
+            addToShelf,
           }}
         >
           <SelectedMeta />

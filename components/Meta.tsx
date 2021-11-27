@@ -1,5 +1,6 @@
 import React from "react";
-import { TYPECHART } from "models/typechart.model";
+import cn from "classnames";
+import { TYPECHART, TYPES } from "models/typechart.model";
 import { ChartContext } from "pages";
 import { Tooltip } from "antd";
 
@@ -19,8 +20,12 @@ function SwapButton({ onClick }: { onClick: () => void }) {
   );
 }
 
-function SwordIcon() {
-  return <span className={stl.type}>⚔️</span>;
+function SwordIcon({ onClick }: { onClick: () => void }) {
+  return <span className={cn(stl.type, stl.sword)} onClick={onClick} />;
+}
+
+function ShieldIcon({ onClick }: { onClick: () => void }) {
+  return <span className={cn(stl.type, stl.shield)} onClick={onClick} />;
 }
 
 //* Main Component
@@ -36,6 +41,8 @@ function SelectedMeta() {
     setClickDef2,
     sorting,
     setSorting,
+    addToShelf,
+    setShow,
   } = React.useContext(ChartContext);
 
   const hasSelection = !!clickAtk || !!clickDef;
@@ -63,6 +70,21 @@ function SelectedMeta() {
     else setSorting("custom");
   }
 
+  function saveAtk() {
+    const types = [clickAtk, clickAtk2].filter((k) => !!k) as TYPES[];
+    if (types.length > 0) {
+      addToShelf(types);
+      setShow(true);
+    }
+  }
+  function saveDef() {
+    const types = [clickDef, clickDef2].filter((k) => !!k) as TYPES[];
+    if (types.length > 0) {
+      addToShelf(types);
+      setShow(true);
+    }
+  }
+
   //* Calculations
   const modifier11 =
     (clickAtk && clickDef && TYPECHART?.[clickAtk]?.[clickDef]) ?? 1;
@@ -87,7 +109,7 @@ function SelectedMeta() {
         <div className={stl.miniContainer}>
           {(!!clickAtk || !!clickDef) && <SwapButton onClick={swapTypes} />}
 
-          {!!clickAtk && <SwordIcon />}
+          {!!clickAtk && <SwordIcon onClick={saveAtk} />}
           <div className={stl.attacking}>
             {attackTypes.map((set, i) => (
               <AttackDisplay
@@ -100,9 +122,12 @@ function SelectedMeta() {
           </div>
 
           {!!clickDef && (
-            <span className={stl.type}>
-              🛡{clickDef} {clickDef2}
-            </span>
+            <>
+              <ShieldIcon onClick={saveDef} />
+              <span className={stl.type}>
+                {clickDef} {clickDef2}
+              </span>
+            </>
           )}
         </div>
       ) : (
