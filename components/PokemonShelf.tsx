@@ -41,18 +41,26 @@ type CalcTypes = {
 };
 
 //* Single Pokemon Saved Listing
-function isGoodForAtk(mod1: number, mod2: number): string {
-  if (mod1 > 2 || mod2 > 2) return "💖";
-  if (mod1 > 1 || mod2 > 1) return "👍";
-  if (mod1 < 0.5 && mod2 < 0.5) return "💀";
-  if (mod1 < 1 && mod2 < 1) return "❌";
+function isGoodForAtk(mod1: number, mod2?: number): string {
+  // We take our highest modifier against the enemy
+  const mods = [mod1, mod2].filter((k) => k !== undefined) as number[];
+  const bestModifier = Math.max(...mods);
+
+  if (bestModifier === 4) return "💖";
+  if (bestModifier === 2) return "👍";
+  if (bestModifier === 0.5) return "❌";
+  if (bestModifier === 0.25) return "❌";
+  if (bestModifier === 0) return "💀";
   return "–";
 }
 
-function isGoodForDef(mod1: number, mod2: number): string {
-  const worstModifier = Math.max(mod1, mod2);
-  if (worstModifier > 1) return "❌";
-  if (worstModifier < 0.5) return "💀";
+function isGoodForDef(mod1: number, mod2?: number): string {
+  // We take their highest modifier against us
+  const mods = [mod1, mod2].filter((k) => k !== undefined) as number[];
+  const worstModifier = Math.max(...mods);
+
+  if (worstModifier === 4) return "💀";
+  if (worstModifier === 2) return "❌";
   if (worstModifier < 1) return "👍";
   return "–";
 }
@@ -70,39 +78,45 @@ function Pokemon({
   changeName: (value: string) => void;
   calcTypes: CalcTypes;
 }) {
-  const { setClickAtk, setClickDef, setClickAtk2, setClickDef2 } =
-    React.useContext(ChartContext);
+  const {
+    setClickAtk,
+    setClickDef,
+    setClickAtk2,
+    setClickDef2,
+  } = React.useContext(ChartContext);
   const { calcAtk, calcAtk2, calcDef, calcDef2 } = calcTypes;
 
   //* Calculations
   const type1 = data.types[0];
   const type2 = data.types[1];
-  const TC = TYPECHART as any;
+  const TC = TYPECHART;
 
   // How would type do for attacking against set defense
   const type1ForAttack1 = (type1 && calcDef && TC?.[type1]?.[calcDef]) ?? 1;
   const type1ForAttack2 = (type1 && calcDef2 && TC?.[type1]?.[calcDef2]) ?? 1;
-  const type1ForAttack = type1ForAttack1 * type1ForAttack2;
+  const type1ForAttack = type1ForAttack1 * type1ForAttack2; // Average effect of type1 attack
   const type2ForAttack1 = (type2 && calcDef && TC?.[type2]?.[calcDef]) ?? 1;
   const type2ForAttack2 = (type2 && calcDef2 && TC?.[type2]?.[calcDef2]) ?? 1;
-  const type2ForAttack = !!type2 && type2ForAttack1 * type2ForAttack2;
+  const type2ForAttack = !!type2
+    ? type2ForAttack1 * type2ForAttack2
+    : undefined; // Average effect of type2 attack
 
   // How would type do as defense against set attacking
-  const type1ForDef1 = (type1 && calcAtk && TC?.[calcAtk]?.[type1]) ?? 1;
-  const type1ForDef2 = (type1 && calcAtk2 && TC?.[calcAtk2]?.[type1]) ?? 1;
-  const type1ForDef = type1ForDef1 * type1ForDef2;
-  const type2ForDef1 = (type2 && calcAtk && TC?.[calcAtk]?.[type2]) ?? 1;
-  const type2ForDef2 = (type2 && calcAtk2 && TC?.[calcAtk2]?.[type2]) ?? 1;
-  const type2ForDef = !!type2 && type2ForDef1 * type2ForDef2;
+  const their1VSOur1 = (type1 && calcAtk && TC?.[calcAtk]?.[type1]) ?? 1;
+  const their1VSOur2 = (type2 && calcAtk && TC?.[calcAtk]?.[type2]) ?? 1;
+  const their1VSOurs = their1VSOur1 * their1VSOur2;
+  const their2VSOur1 = (type1 && calcAtk2 && TC?.[calcAtk2]?.[type1]) ?? 1;
+  const their2VSOur2 = (type2 && calcAtk2 && TC?.[calcAtk2]?.[type2]) ?? 1;
+  const their2VSOurs = !!calcAtk2 ? their2VSOur1 * their2VSOur2 : undefined;
 
   function loadAsAtk() {
-    if (type1) setClickAtk(type1);
-    if (type2) setClickAtk2(type2);
+    setClickAtk(type1);
+    setClickAtk2(type2 || null);
   }
 
   function loadAsDef() {
-    if (type1) setClickDef(type1);
-    if (type2) setClickDef2(type2);
+    setClickDef(type1);
+    setClickDef2(type2 || null);
   }
 
   return (
@@ -147,7 +161,7 @@ function Pokemon({
           />
           <Button
             label="Load into Defense"
-            content={`🛡 ${isGoodForDef(type1ForDef, type2ForDef)}`}
+            content={`🛡 ${isGoodForDef(their1VSOurs, their2VSOurs)}`}
             onClick={loadAsDef}
           />
         </Box>
@@ -183,7 +197,7 @@ function PokemonShelf() {
   // the attacker or defender.
   const [recommend, setRecommend] = useLocalStorage(
     "recommendAgainst",
-    AGAINST.mix,
+    AGAINST.def,
   );
   const calcTypes: CalcTypes = {};
   if (recommend === AGAINST.mix) {
@@ -245,26 +259,20 @@ function PokemonShelf() {
             Add:
           </Box>
           <Button
-            label="Save Defense Types"
-            content="🛡 Defender"
-            onClick={saveDefToShelf}
+            label="Save Attack Types"
+            content="⚔️ Attack"
+            onClick={saveAtkToShelf}
           />
           <Button
-            label="Save Attack Types"
-            content="⚔️ Attacker"
-            onClick={saveAtkToShelf}
+            label="Save Defense Types"
+            content="🛡 Defense"
+            onClick={saveDefToShelf}
           />
         </div>
         <div className={stl.saveButtons}>
           <Box is="span" flexGrow={1}>
             Against:
           </Box>
-          <Button
-            className={cn({ [stl.selected]: recommend === AGAINST.mix })}
-            label="Mix"
-            content="🥗"
-            onClick={() => setRecommend(AGAINST.mix)}
-          />
           <Button
             className={cn({ [stl.selected]: recommend === AGAINST.def })}
             label="Defense Types"
@@ -276,6 +284,12 @@ function PokemonShelf() {
             label="Attack Types"
             content="⚔️"
             onClick={() => setRecommend(AGAINST.atk)}
+          />
+          <Button
+            className={cn({ [stl.selected]: recommend === AGAINST.mix })}
+            label="Mix"
+            content="🥗"
+            onClick={() => setRecommend(AGAINST.mix)}
           />
         </div>
 
