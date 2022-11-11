@@ -19,9 +19,7 @@ export function helperToggle(
   setSecondary: (val: TYPES | null) => void,
 ) {
   if (!newType) return;
-  const tryingToSetSecondary = !!evt?.metaKey && !!primaryType;
-
-  if (tryingToSetSecondary) {
+  if (tryingToSetSecondary(evt, primaryType)) {
     if (newType !== primaryType) {
       if (secondaryType === newType) setSecondary(null);
       else setSecondary(newType);
@@ -47,9 +45,7 @@ function helperClick(
   canClear?: boolean,
 ) {
   if (!newType) return;
-  const tryingToSetSecondary = !!evt.metaKey && !!primaryType;
-
-  if (tryingToSetSecondary) {
+  if (tryingToSetSecondary(evt, primaryType)) {
     if (newType !== primaryType) {
       if (secondaryType === newType) setSecondary(null);
       else setSecondary(newType);
@@ -62,6 +58,15 @@ function helperClick(
 
     setSecondary(null);
   }
+}
+
+function tryingToSetSecondary(
+  evt: MouseEvent,
+  primaryType: TYPES | null,
+) {
+  const isMac = /(Mac)/i.test(navigator.userAgent);
+  // Allow non-Mac users to Ctrl-click rather than meta-click
+  return (isMac ? !!evt.metaKey : !!evt.ctrlKey ) && !!primaryType;
 }
 
 //* Main Chart Component
